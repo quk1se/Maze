@@ -18,6 +18,7 @@ namespace Maze
         public MazeObject[,] Maze => maze;
 
         public int medalsCount = 0;
+        public const int heal = 5;
 
 
         public Labirint(Form parent, int width, int height)
@@ -60,6 +61,10 @@ namespace Maze
                         current = MazeObject.MazeObjectType.ENEMY;
                     }
 
+                    if (r.Next(250) == 0)
+                    {
+                        current = MazeObject.MazeObjectType.HEAL;
+                    }
                     // стены по периметру обязательны
                     if (y == 0 || x == 0 || y == height - 1 | x == width - 1)
                     {
@@ -77,7 +82,7 @@ namespace Maze
                     {
                         current = MazeObject.MazeObjectType.HALL;
                     }
-                    
+
                     maze[y, x] = new MazeObject(current);
                     images[y, x] = new PictureBox();
                     images[y, x].Location = new Point(x * maze[y, x].width, y * maze[y, x].height);

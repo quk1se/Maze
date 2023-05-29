@@ -52,7 +52,10 @@ namespace Maze
                     if (playerHealth - random < 0) playerHealth = 0;
                     else playerHealth -= random;
                     break;
-
+                case MazeObjectType.HEAL:
+                    if (playerHealth + Labirint.heal > 100) playerHealth = 100;
+                    if (playerHealth != 100) playerHealth += Labirint.heal;
+                    break;
             }
             return true;
         }
