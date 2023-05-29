@@ -13,7 +13,9 @@ namespace Maze
     {
         public static Labirint l;
         public Point playerLoc;
-        
+        public int medalsClaim = 0;
+        public int playerHealth = 100;
+        Random rand = new Random();
         public Player()
         {
             this.playerLoc = new Point(0,2);
@@ -21,10 +23,9 @@ namespace Maze
         public void Move(int newX, int newY)
         {
             l.Maze[playerLoc.Y, playerLoc.X].ChangeBackgroundImage(MazeObjectType.HALL);
+            l.images[playerLoc.Y, playerLoc.X].BackgroundImage = l.Maze[playerLoc.Y, playerLoc.X].texture;
             l.Maze[newY, newX].ChangeBackgroundImage(MazeObjectType.CHAR);
-            
-
-            //l.ShowInfo();
+            l.showTitle();
         }
         public static void SetLabirint(Labirint labirint)
         {
@@ -43,9 +44,13 @@ namespace Maze
                     break;
 
                 case MazeObjectType.MEDAL:
+                    medalsClaim++;
                     break;
 
                 case MazeObjectType.ENEMY:
+                    int random = rand.Next(20, 26);
+                    if (playerHealth - random < 0) playerHealth = 0;
+                    else playerHealth -= random;
                     break;
 
             }

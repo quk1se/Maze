@@ -17,6 +17,9 @@ namespace Maze
         public Form parent;
         public MazeObject[,] Maze => maze;
 
+        public int medalsCount = 0;
+
+
         public Labirint(Form parent, int width, int height)
         {
             this.width = width;
@@ -48,6 +51,7 @@ namespace Maze
                     if (r.Next(250) == 0)
                     {
                         current = MazeObject.MazeObjectType.MEDAL;
+                        medalsCount++;
                     }
 
                     // в 1 случае из 250 - размещаем врага
@@ -92,6 +96,7 @@ namespace Maze
             {
                 for (int x = 0; x < width; x++)
                 {
+                    images[y, x].Location = new Point(x * maze[y, x].width, y * maze[y, x].height);
                     images[y, x].Visible = true;
                 }
             }
@@ -104,42 +109,78 @@ namespace Maze
 
             switch (e.KeyCode)
             {
-                case Keys.W:
-                    if (player.CheckCollision(newX, newY - 1))
+                case Keys.Up:
+                    newX = player.playerLoc.X;
+                    newY = player.playerLoc.Y - 1;
+                    if (player.CheckCollision(newX, newY))
                     {
-                        player.Move(newX, newY - 1);
-                        player.playerLoc = new Point(newX, newY - 1);
-                        parent.Text= player.playerLoc.ToString();
+                        player.Move(newX, newY);
+                        player.playerLoc = new Point(newX, newY);
+                        parent.Invalidate(); // Обновление отображения
                     }
                     break;
 
-                case Keys.S:
-                    if (player.CheckCollision(newX, newY + 1))
+                case Keys.Down:
+                    newX = player.playerLoc.X;
+                    newY = player.playerLoc.Y + 1;
+                    if (player.CheckCollision(newX, newY))
                     {
-                        player.Move(newX, newY + 1);
-                        player.playerLoc = new Point(newX, newY + 1);
-                        parent.Text = player.playerLoc.ToString();
+                        player.Move(newX, newY);
+                        player.playerLoc = new Point(newX, newY);
+                        parent.Invalidate(); // Обновление отображения
                     }
                     break;
 
-                case Keys.A:
-                    if (player.CheckCollision(newX - 1, newY))
+                case Keys.Left:
+                    newX = player.playerLoc.X - 1;
+                    newY = player.playerLoc.Y;
+                    if (player.CheckCollision(newX, newY))
                     {
-                        player.Move(newX - 1, newY);
-                        player.playerLoc = new Point(newX - 1, newY);
-                        parent.Text = player.playerLoc.ToString();
+                        player.Move(newX, newY);
+                        player.playerLoc = new Point(newX, newY);
+                        parent.Invalidate(); // Обновление отображения
                     }
                     break;
 
-                case Keys.D:
-                    if (player.CheckCollision(newX + 1, newY))
+                case Keys.Right:
+                    newX = player.playerLoc.X + 1;
+                    newY = player.playerLoc.Y;
+                    if (player.CheckCollision(newX, newY))
                     {
-                        player.Move(newX + 1, newY);
-                        player.playerLoc = new Point(newX + 1, newY);
-                        parent.Text = player.playerLoc.ToString();
+                        player.Move(newX, newY);
+                        player.playerLoc = new Point(newX, newY);
+                        parent.Invalidate(); // Обновление отображения
                     }
                     break;
             }
+            if (newX >= 0)
+            {
+                images[newY, newX].BackgroundImage = maze[newY, newX].texture;
+                images[newY, newX].Refresh();
+            }
+            EndLabirint();
+        }
+        public void EndLabirint()
+        {
+            if (player.playerLoc.X == 39 && player.playerLoc.Y == 17)
+            {
+                MessageBox.Show("Победа, вы прошли до конца лабиринта!");
+                parent.Close();
+            }
+            if (player.medalsClaim == medalsCount && medalsCount != 0)
+            {
+                MessageBox.Show("Победа, вы собрали все монетки!");
+                parent.Close();
+            }
+            if (player.playerHealth == 0)
+            {
+                MessageBox.Show("Поражение, вас убили монстры!");
+                parent.Close();
+            }
+        }
+        public void showTitle()
+        {
+            parent.Text = $"Maze  Medals: {player.medalsClaim} / {medalsCount} | Health: {player.playerHealth}";
         }
     }
 }

@@ -15,8 +15,6 @@ namespace Maze
 
         public void Options()
         {
-            Text = "Maze";
-
             BackColor = Color.FromArgb(255, 92, 118, 137);
 
             int sizeX = 40;
@@ -30,13 +28,13 @@ namespace Maze
         public void StartGame() {
             l = new Labirint(this, 40, 20);
             Player.SetLabirint(l);
+            l.showTitle();
             l.Show();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             l.MovePlayer(e);
-            this.Refresh();
         }
     }
 }
