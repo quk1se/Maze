@@ -20,12 +20,14 @@ namespace Maze
         private int enemiesKill = 0;
 
 
+
+
+
         Random rand = new Random();
         public Player()
         {
             this.playerLoc = new Point(0,2);
         }
-
         public int MedalsClaim
         {
             set { medalsClaim = value; }
@@ -51,7 +53,6 @@ namespace Maze
 
 
 
-
         public void Move(int newX, int newY)
         {
             l.Maze[playerLoc.Y, playerLoc.X].ChangeBackgroundImage(MazeObjectType.HALL);
@@ -66,7 +67,7 @@ namespace Maze
         public bool CheckCollision(int newX, int newY)
         {
             if (newX < 0) return false;
-
+            int random;
             switch (l.Maze[newY, newX].Type)
             {
                 case MazeObjectType.WALL:
@@ -79,8 +80,20 @@ namespace Maze
                     MedalsClaim++;
                     break;
 
-                case MazeObjectType.ENEMY:
-                    int random = rand.Next(20, 26);
+                case MazeObjectType.ENEMY1:
+                    random = rand.Next(20, 26);
+                    enemiesKill += 1;
+                    if (playerHealth - random < 0) playerHealth = 0;
+                    else playerHealth -= random;
+                    break;
+                case MazeObjectType.ENEMY2:
+                    random = rand.Next(20, 26);
+                    enemiesKill += 1;
+                    if (playerHealth - random < 0) playerHealth = 0;
+                    else playerHealth -= random;
+                    break;
+                case MazeObjectType.ENEMY3:
+                    random = rand.Next(20, 26);
                     enemiesKill += 1;
                     if (playerHealth - random < 0) playerHealth = 0;
                     else playerHealth -= random;

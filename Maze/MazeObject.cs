@@ -6,12 +6,14 @@ namespace Maze
 {
     public class MazeObject
     {
-        public enum MazeObjectType { HALL, WALL, MEDAL, ENEMY, CHAR, HEAL, COFFEE };
+        public enum MazeObjectType { HALL, WALL, MEDAL, ENEMY1,ENEMY2,ENEMY3, CHAR, HEAL, COFFEE };
 
         public Bitmap[] images = {new Bitmap(@"C:\1\hall.png"),
             new Bitmap(@"C:\1\wall.png"),
             new Bitmap(@"C:\1\medal.png"),
-            new Bitmap(@"C:\1\enemy.png"),
+            new Bitmap(@"C:\1\enemy1.png"),
+            new Bitmap(@"C:\1\enemy2.png"),
+            new Bitmap(@"C:\1\enemy3.png"),
             new Bitmap(@"C:\1\player.png"),
             new Bitmap(@"C:\1\heal.png"),
             new Bitmap(@"C:\1\coffee.png")

@@ -30,6 +30,7 @@ namespace Maze
             Player.SetLabirint(l);
             l.showTitle();
             l.Show();
+            
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)

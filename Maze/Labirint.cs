@@ -7,6 +7,8 @@ namespace Maze
 {
     public class Labirint
     {
+        public static string miamiFilePath = @"C:\1\miamiTrack.wav";
+        public static string ParisFilePath = @"C:\1\Paris.wav";
         public int height; // высота лабиринта (количество строк)
         public int width; // ширина лабиринта (количество столбцов в каждой строке)
 
@@ -24,6 +26,14 @@ namespace Maze
         public int enemiesCount = 0;
         public int stepCounts = 0;
 
+        public string MiamiTrack
+        {
+            get { return miamiFilePath; }
+        }
+        public string WinTrack
+        {
+            get { return ParisFilePath; }
+        }
 
         public Labirint(Form parent, int width, int height)
         {
@@ -36,10 +46,14 @@ namespace Maze
 
             Generate();
         }
+        public void mediaPlayer(string filePath)
+        {
+            SoundPlayer mediaPlayer = new SoundPlayer(filePath);
+            mediaPlayer.Play();
+        }
 
         private void Generate()
         {
-
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
@@ -62,8 +76,22 @@ namespace Maze
                     // в 1 случае из 250 - размещаем врага
                     if (r.Next(250) == 0)
                     {
-                        current = MazeObject.MazeObjectType.ENEMY;
-                        enemiesCount++;
+                        int randEnemy = r.Next(1, 4);
+                        if (randEnemy == 1)
+                        {
+                            current = MazeObject.MazeObjectType.ENEMY1;
+                            enemiesCount++;
+                        }
+                        else if (randEnemy == 2)
+                        {
+                            current = MazeObject.MazeObjectType.ENEMY2;
+                            enemiesCount++;
+                        }
+                        else if (randEnemy == 3)
+                        {
+                            current = MazeObject.MazeObjectType.ENEMY3;
+                            enemiesCount++;
+                        }
                     }
 
                     if (r.Next(250) == 0)
@@ -115,6 +143,7 @@ namespace Maze
                     images[y, x].Visible = true;
                 }
             }
+            mediaPlayer(MiamiTrack);
         }
 
         public void MovePlayer(KeyEventArgs e)
@@ -181,11 +210,13 @@ namespace Maze
         {
             if (player.playerLoc.X == 39 && player.playerLoc.Y == 17)
             {
+                mediaPlayer(WinTrack);
                 MessageBox.Show("Победа, вы прошли до конца лабиринта!");
                 parent.Close();
             }
             if (player.MedalsClaim == medalsCount && medalsCount != 0)
             {
+                mediaPlayer(WinTrack);
                 MessageBox.Show("Победа, вы собрали все монетки!");
                 parent.Close();
             }
@@ -199,15 +230,16 @@ namespace Maze
                 MessageBox.Show("Поражение, у вас закончилась вся энергия!");
                 parent.Close();
             }
-            if (player.EnemiesKill == enemiesCount)
+            if (player.EnemiesKill == enemiesCount && enemiesCount != 0)
             {
+                mediaPlayer(WinTrack);
                 MessageBox.Show("Победа, все монстры повержены!");
                 parent.Close();
             }
         }
         public void showTitle()
         {
-            parent.Text = $"Maze  Medals: {player.MedalsClaim} / {medalsCount} | Health: {player.PlayerHealth} | Energy: {player.PlayerEnergy}";
+            parent.Text = $"Hotline Miami (Maze)  Medals: {player.MedalsClaim} / {medalsCount} | Health: {player.PlayerHealth} | Energy: {player.PlayerEnergy}";
         }
     }
 }
