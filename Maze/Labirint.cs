@@ -8,7 +8,8 @@ namespace Maze
     public class Labirint
     {
         public static string miamiFilePath = @"C:\1\miamiTrack.wav";
-        public static string ParisFilePath = @"C:\1\Paris.wav";
+        public static string parisFilePath = @"C:\1\Paris.wav";
+        public static string gameOverFilePath = @"C:\1\gameOver.wav";
         public int height; // высота лабиринта (количество строк)
         public int width; // ширина лабиринта (количество столбцов в каждой строке)
 
@@ -32,9 +33,12 @@ namespace Maze
         }
         public string WinTrack
         {
-            get { return ParisFilePath; }
+            get { return parisFilePath; }
         }
-
+        public string GameOverTrack
+        {
+            get { return gameOverFilePath; }
+        }
         public Labirint(Form parent, int width, int height)
         {
             this.width = width;
@@ -222,11 +226,13 @@ namespace Maze
             }
             if (player.PlayerHealth == 0)
             {
+                mediaPlayer(GameOverTrack);
                 MessageBox.Show("Поражение, вас убили монстры!");
                 parent.Close();
             }
             if (player.PlayerEnergy == 0)
             {
+                mediaPlayer(GameOverTrack);
                 MessageBox.Show("Поражение, у вас закончилась вся энергия!");
                 parent.Close();
             }
