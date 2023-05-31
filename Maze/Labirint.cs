@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Media;
 
 namespace Maze
 {
@@ -19,6 +20,9 @@ namespace Maze
 
         public int medalsCount = 0;
         public const int heal = 5;
+        public const int energy = 25;
+        public int enemiesCount = 0;
+        public int stepCounts = 0;
 
 
         public Labirint(Form parent, int width, int height)
@@ -59,6 +63,12 @@ namespace Maze
                     if (r.Next(250) == 0)
                     {
                         current = MazeObject.MazeObjectType.ENEMY;
+                        enemiesCount++;
+                    }
+
+                    if (r.Next(250) == 0)
+                    {
+                        current = MazeObject.MazeObjectType.COFFEE;
                     }
 
                     if (r.Next(250) == 0)
@@ -158,6 +168,8 @@ namespace Maze
                     }
                     break;
             }
+            player.PlayerEnergy -= 1;
+            stepCounts++;
             if (newX >= 0)
             {
                 images[newY, newX].BackgroundImage = maze[newY, newX].texture;
@@ -172,20 +184,30 @@ namespace Maze
                 MessageBox.Show("Победа, вы прошли до конца лабиринта!");
                 parent.Close();
             }
-            if (player.medalsClaim == medalsCount && medalsCount != 0)
+            if (player.MedalsClaim == medalsCount && medalsCount != 0)
             {
                 MessageBox.Show("Победа, вы собрали все монетки!");
                 parent.Close();
             }
-            if (player.playerHealth == 0)
+            if (player.PlayerHealth == 0)
             {
                 MessageBox.Show("Поражение, вас убили монстры!");
+                parent.Close();
+            }
+            if (player.PlayerEnergy == 0)
+            {
+                MessageBox.Show("Поражение, у вас закончилась вся энергия!");
+                parent.Close();
+            }
+            if (player.EnemiesKill == enemiesCount)
+            {
+                MessageBox.Show("Победа, все монстры повержены!");
                 parent.Close();
             }
         }
         public void showTitle()
         {
-            parent.Text = $"Maze  Medals: {player.medalsClaim} / {medalsCount} | Health: {player.playerHealth}";
+            parent.Text = $"Maze  Medals: {player.MedalsClaim} / {medalsCount} | Health: {player.PlayerHealth} | Energy: {player.PlayerEnergy}";
         }
     }
 }

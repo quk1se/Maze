@@ -6,14 +6,15 @@ namespace Maze
 {
     public class MazeObject
     {
-        public enum MazeObjectType { HALL, WALL, MEDAL, ENEMY, CHAR, HEAL };
+        public enum MazeObjectType { HALL, WALL, MEDAL, ENEMY, CHAR, HEAL, COFFEE };
 
         public Bitmap[] images = {new Bitmap(@"C:\1\hall.png"),
             new Bitmap(@"C:\1\wall.png"),
             new Bitmap(@"C:\1\medal.png"),
             new Bitmap(@"C:\1\enemy.png"),
             new Bitmap(@"C:\1\player.png"),
-            new Bitmap(@"C:\1\heal.png")
+            new Bitmap(@"C:\1\heal.png"),
+            new Bitmap(@"C:\1\coffee.png")
         };
 
         public MazeObjectType type;
@@ -70,7 +71,7 @@ namespace Maze
         public void ChangeBackgroundImage(MazeObjectType type)
         {
             Type = type;
-            pictureBox.BackgroundImage = Texture; 
+            pictureBox.BackgroundImage = Texture;
         }
     }
 }
